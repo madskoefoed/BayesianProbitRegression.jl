@@ -7,5 +7,4 @@ using Distributions, LinearAlgebra, StatsBase
 include("./src/simulate.jl")
 include("./src/estimate.jl")
 
-
 end
