@@ -24,3 +24,7 @@ X = range(-1, 0, length=100)
 Y = range(1, 3, length=100)
 Z = [pdf(β, [x, y]) for y in Y, x in X] # Note x-y "for" ordering
 contourf(X, Y, Z, color=:viridis, xlab = "β₁", ylab = "β₂")
+
+# Plot the chains
+plot(chain, label = "", title = "Chain of βs")
+hline!([μ], color = :grey, linewidth = 3, label = "True")

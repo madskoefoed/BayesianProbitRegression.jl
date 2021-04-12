@@ -12,9 +12,13 @@ y, p, z, x, μ = simulate(μ, 500, intercept = false);
 
 # Plot chains and compare with true values
 using Plots
-histogram(chain[1001:10:end], label = "β₁", title = "Histogram", legend = :topright)
+histogram(chain, label = "Coefficient", title = "Histogram of β₁", legend = :topright)
 vline!([μ], color = :grey, linewidth = 3, label = "True")
 
 # Plot the true probabilities against the estimated probabilities
 scatter(probabilities(x, β), p, legend = false, title = "Probabilities", xlab = "Estimated probabilities", ylab ="True probabilities")
 plot!(0:0.01:1, 0:0.01:1, color = :grey, linewidth = 3)
+
+# Plot the chain
+plot(chain, label = "", title = "Chain of β")
+hline!([μ], color = :grey, linewidth = 3, label = "True")

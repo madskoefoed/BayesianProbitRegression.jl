@@ -4,8 +4,8 @@ module BayesianProbitRegression
 using Distributions, LinearAlgebra, StatsBase
 
 # Load files
+include("./src/utils.jl")
 include("./src/simulate.jl")
 include("./src/estimate.jl")
-include("./src/utils.jl")
 
 end
