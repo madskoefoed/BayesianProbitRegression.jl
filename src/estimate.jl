@@ -20,7 +20,7 @@ function gibbs(y::Vector{<:Bool}, x::Vector{<:Real}, β₀::Normal, M = 10_000::
             end
         end
         # Compute posterior mean of θ
-        μ = Σ * Q₀ * β₀.μ + dot(x, z)
+        μ = Σ * (Q₀ * β₀.μ + dot(x, z))
         # Draw variable θ from its full conditional θ|z, x
         chain[i + 1] = rand(Normal(μ, sqrt(Σ)))
     end
