@@ -1,3 +1,12 @@
+function effective_sample_size(β::Vector{<:AbstractFloat}, k = 10::Integer)
+    M = length(β)
+    @assert M > k "The chain of βs must be longer than k."
+    ρ = sum(pacf(β, 1:k))
+    τ = 1 + 2 * sum(ρ)
+    ESS = round.(Int, vec(M ./ τ))
+    return ESS
+end
+
 function effective_sample_size(β::Matrix{<:AbstractFloat}, k = 10::Integer)
     M, J = size(β)
     @assert M > k "The chain of βs must be longer than k."

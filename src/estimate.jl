@@ -1,6 +1,10 @@
 
 # https://www.tandfonline.com/doi/abs/10.1080/01621459.1993.10476321
 
+function gibbs(y::Vector{<:Bool}, β₀::Normal, M = 10_000::Integer)
+    return gibbs(y, ones(length(y)), β₀, M)
+end
+
 function gibbs(y::Vector{<:Bool}, x::Vector{<:Real}, β₀::Normal, M = 10_000::Integer)
     N = length(x)
     @assert length(y) == N "y and x must have the same number of rows."

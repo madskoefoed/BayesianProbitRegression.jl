@@ -1,7 +1,10 @@
 module BayesianProbitRegression
 
 # Load packages
-using Distributions, LinearAlgebra, StatsBase
+using Distributions: Normal, MvNormal, pdf, cdf, Bernoulli, truncated
+using LinearAlgebra: dot, I, Symmetric
+using StatsBase: mean, std, cov
+using Random: seed!
 
 # Load files
 include("./src/utils.jl")
