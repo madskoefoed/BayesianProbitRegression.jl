@@ -2,34 +2,19 @@
 # https://www.tandfonline.com/doi/abs/10.1080/01621459.1993.10476321
 
 function gibbs(y::Vector{<:Bool}, β₀::Normal, M = 10_000::Integer)
-    return gibbs(y, ones(length(y)), β₀, M)
+    return gibbs(y, ones(length(y), 1), β₀, M)
 end
 
 function gibbs(y::Vector{<:Bool}, x::Vector{<:Real}, β₀::Normal, M = 10_000::Integer)
-    N = length(x)
-    @assert length(y) == N "y and x must have the same number of rows."
+    gibbs(y, repeat(x, 1, 1), MvNormal([β₀.μ], β₀.σ^2*I), M)
+end
 
-    chain = zeros(M)
-    chain[1] = β₀.μ
-    z = zeros(N)
-    Q₀ = 1/β₀.σ^2
-    Σ = 1/(Q₀ + sum(x.^2)) # β|z,x  ~ N(μ, Σ)
-    for i in 1:(M - 1)
-        # Draw latent variable z from its full conditional: z|θ, y, x
-        for n in 1:N
-            if y[n] == 0
-                z[n] = rand(truncated(Normal(x[n] * chain[i], 1.0), -Inf, 0.0))
-            else
-                z[n] = rand(truncated(Normal(x[n] * chain[i], 1.0), 0.0, Inf))
-            end
-        end
-        # Compute posterior mean of θ
-        μ = Σ * (Q₀ * β₀.μ + dot(x, z))
-        # Draw variable θ from its full conditional θ|z, x
-        chain[i + 1] = rand(Normal(μ, sqrt(Σ)))
+function gibbs(y::Vector{<:Bool}, x::Matrix{<:Real}, β₀::Normal, M = 10_000::Integer)
+    if size(x, 2) == 1
+    gibbs(y, repeat(x, 1, 1), MvNormal([β₀.μ], β₀.σ^2*I), M)
+    else
+        throw(DimensionMismatch("β₀ is a univariate normal prior, but x is a matrix with more than 1 column."))
     end
-    β = Normal(mean(chain), std(chain))
-    return β, chain
 end
 
 function gibbs(y::Vector{<:Bool}, x::Matrix{<:Real}, β₀::MvNormal, M = 10_000::Integer)
@@ -56,6 +41,5 @@ function gibbs(y::Vector{<:Bool}, x::Matrix{<:Real}, β₀::MvNormal, M = 10_000
         # Draw variable θ from its full conditional θ|z, x
         chain[i + 1, :] = rand(MvNormal(μ, Σ))
     end
-    β = MvNormal(vec(mean(chain; dims = 1)), cov(chain))
-    return β, chain
+    return chain
 end
