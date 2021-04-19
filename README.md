@@ -94,8 +94,14 @@ The histograms of the posterior distributions of the $\beta$s show that they are
 
 ![Histogram](/example/multivariable_histogram.png)
 
-The estimated probabilities (using the posterior means) can be obtained by calling `probabilities(x, β)`, and can for example be plotted against the $x$s. Below this is done for $x_{3}$:
-
-![Histogram](/example/multivariable_probabilities.png)
-
 To check convergence the Effective Sample Size (ESS) can be calculated, which takes the serial correlation of the (Markov) chains into account. The package allows for easy calculation of the ESS by running the command `effective_sample_size(chain[1001:end, :], 10)`, where `10` specifies the number of lags to include in the calculation and the first 1,000 samples are left out. The resulting vector `[3023, 2789, 3079]` suggests that we would need to roughly triple the number of draws to 30,000 to have an effective sample size of 10,000 due to the serial correlation in the chains.
+
+## Metropolis-Hastings
+The package also provides a standard Metropolis-Hastings (MH) algorithm as an alternative to the Gibbs algorithm. Using _Example With 3 Inputs_ above, we could use MH rather than Gibbs as follows:
+
+```julia
+β = MvNormal(zeros(3), 0.01*I)
+chainₘ, acceptance = MH(y, x, β₀, β, 11_000)
+```
+
+The MH algorithm requires a distribution for the candidate parameters $\beta$, here chosen to be multivariate normally distributed. And unlike the Gibbs sampler - which accepts all proposals - the MH function returns two outputs, the second of which is $\alpha$, which provides a vector of Boolean values indicating whether the candidate parameters were accepted or not. The acceptance rate is then simply the mean of the vector (discarding the burn-in elements): `mean(acceptance[1001:end])`, which for the example is approx. 34%.
