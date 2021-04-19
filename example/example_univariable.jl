@@ -37,7 +37,7 @@ vline!([quantile(Normal(0, 1), mean(y))], color = :black, linewidth = 3, label =
 savefig("./example/univariable_histogram")
 
 # Effective Sample Size (ESS)
-println("Effective Sample Size: $(effective_sample_size(chain))")
+println("Effective Sample Size: $(ESS(chain))")
 
 # Metropolis-Hastings (MH)
 β = Normal(0, 0.1)

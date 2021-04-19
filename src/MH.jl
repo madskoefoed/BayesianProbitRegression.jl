@@ -1,3 +1,22 @@
+"""
+    MH(y, x, β₀, β, M)
+
+A Gibbs algorithm for probit regression.
+
+# Arguments
+- `y`: boolean vector of outcomes
+- `x`: real valued vector or matrix of inputs
+- `β₀`: a univariate or multivariate normal distribution for the prior
+- `β`: a univariate or multivariate normal distribution for the candidate
+- `M`: the number of draws
+
+# Output
+- `chain`: matrix of draws from the target distribution
+- `accept`: boolean vector of acceptance indicators
+
+The function can be called without 'x' in which case a constant-only model is estimated.
+"""
+
 function MH(y::Vector{T} where T<:Bool, β₀::Normal, M = 10_000::Integer)
     return MH(y, ones(length(y), 1), β₀, β, M)
 end

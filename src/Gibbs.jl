@@ -1,5 +1,22 @@
+"""
+    gibbs(y, x, β₀, M)
 
-# https://www.tandfonline.com/doi/abs/10.1080/01621459.1993.10476321
+A Gibbs algorithm for probit regression.
+
+# Arguments
+- `y`: boolean vector of outcomes
+- `x`: real valued vector or matrix of inputs
+- `β₀`: a univariate or multivariate normal distribution for the prior
+- `M`: the number of draws
+
+# Output
+- `chain`: matrix of draws from the target distribution
+
+The function can be called without 'x' in which case a constant-only model is estimated.
+
+The Gibbs algorithm is based on the paper Bayesian Analysis of Binary
+and Polychotomous Response Data (Albert and Chib, 1993). 
+"""
 
 function gibbs(y::Vector{T} where T<:Bool, β₀::Normal, M = 10_000::Integer)
     return gibbs(y, ones(length(y), 1), β₀, M)

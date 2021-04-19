@@ -1,4 +1,17 @@
-function effective_sample_size(chain::Matrix{T} where T<:AbstractFloat, k = 10::Integer)
+"""
+    ESS(chain, k)
+
+Calculate the Effective Sample Size.
+
+# Arguments
+- `chain`: matrix of draws from the target distribution
+- `k`: (integer) number of lags
+
+# Output
+- `ESS`: vector of effective sample sizes
+"""
+
+function ESS(chain::Matrix{T} where T<:AbstractFloat, k = 10::Integer)
     M, J = size(chain)
     @assert M > k "The chain of β must be longer than k."
     ρ = sum(pacf(chain, 1:k); dims = 1)
@@ -7,14 +20,22 @@ function effective_sample_size(chain::Matrix{T} where T<:AbstractFloat, k = 10::
     return ESS
 end
 
-function latent(x::Matrix{T} where T<:Real, chain::Matrix{T} where T<:AbstractFloat)
-    @assert size(x, 2) == size(chain, 2)
-    return x * chain'
-end
-latent(x::Vector{T} where T<:Real, chain::Matrix{T} where T<:AbstractFloat) = latent(repeat(x, 1, 1), chain)
+"""
+    probability(x, chain)
+
+Calculate probabilities based on the probit link.ß
+
+# Arguments
+- `x`: matrix of inputs
+- `chain`: matrix of draws from the target distribution
+
+# Output
+- `p`: matrix of probabilities
+"""
 
 function probability(x::Matrix{T} where T<:Real, chain::Matrix{T} where T<:AbstractFloat)
-    z = latent(x, chain)
-    return cdf(Normal(0, 1), z)
+    z = x * chain'
+    p = cdf(Normal(0, 1), z)
+    return p
 end
 probability(x::Vector{T} where T<:Real, chain::Matrix{T} where T<:AbstractFloat) = probability(repeat(x, 1, 1), chain)

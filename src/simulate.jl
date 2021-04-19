@@ -1,3 +1,18 @@
+"""
+    simulate(μ, x)
+
+Simulation of a dichotomous vector via the probit link.
+
+# Arguments
+- `μ`: real-valued vector of coefficients
+- `x`: real-valued vector or matrix of inputs
+
+# Output
+- `y`: boolean vector of outcomes
+- `p`: vector of probabilities
+- `z`: vector of latent variables
+"""
+
 function simulate(μ::T where T<:Real, x::Vector{T} where T<:Real)
     z = x * μ
     p = cdf(Normal(0, 1), z)

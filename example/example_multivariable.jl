@@ -34,7 +34,7 @@ vline!([μ], color = :grey, linewidth = 3, label = "True")
 savefig("./example/multivariable_histogram")
 
 # Effective Sample Size (ESS)
-println("Effective Sample Size: $(effective_sample_size(chain))")
+println("Effective Sample Size: $(ESS(chain))")
 
 # Metropolis-Hastings (MH)
 β = MvNormal(zeros(3), 0.01*I)
