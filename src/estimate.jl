@@ -43,3 +43,40 @@ function gibbs(y::Vector{<:Bool}, x::Matrix{<:Real}, β₀::MvNormal, M = 10_000
     end
     return chain
 end
+
+function MH(y::Vector{<:Bool}, x::Matrix{<:Real}, β₀::MvNormal, β::MvNormal, M = 10_000::Integer)
+    N, J = size(x)
+    @assert length(y) == N "y and x must have the same number of rows."
+    @assert J == length(β₀.μ) "The number of columns in x must match the dimension of β₀."
+
+    chain = zeros(M, J)
+    chain[1, :] = β₀.μ
+    loglik = MH_loglik(y, x, β)
+    for i in 1:(M - 1)
+        
+    end
+    return chain
+end
+
+function MH_prior(β₀::MvNormal, β::MvNormal)
+    return sum(logpdf(β₀, β.μ))
+end
+
+function MH_loglik(y, x, β::MvNormal)
+    z = x * β.μ
+    p = cdf(Normal(0, 1), z)
+    d = 0.0
+    for n in 1:length(y)
+        d += logpdf(Bernoulli(p[n]), y[n])
+    end
+    return d
+end
+
+function MH_posterior(y, x, β₀::MvNormal, β::MvNormal)
+    return MH_prior(β₀, β) + MH_loglik(y, x, β)
+end
+
+function MH_candidate(β::MvNormal)
+    β.μ += rand(β)
+    return β
+end

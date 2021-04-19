@@ -32,3 +32,6 @@ vline!([μ], color = :grey, linewidth = 3, label = "True")
 vline!([β̅], color = :yellow, linewidth = 3, label = "Posterior mean")
 vline!([quantile(Normal(0, 1), mean(y))], color = :red, linewidth = 3, label = "MLE")
 savefig("./example/univariable_histogram")
+
+# Effective Sample Size (ESS)
+println("Effective Sample Size: $(effective_sample_size(chain))")
