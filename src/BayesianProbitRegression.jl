@@ -9,11 +9,11 @@ using Random: seed!
 include("./src/utils.jl")
 include("./src/simulate.jl")
 include("./src/Gibbs.jl")
-include("./src/MH.jl")
+include("./src/Metropolis.jl")
 
 # Export
-export Gibbs,
-MH,
+export gibbs,
+metropolis,
 simulate,
 probability,
 latent,

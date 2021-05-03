@@ -2,7 +2,7 @@
 seed!(1234)
 
 # Number of observations
-N = 500
+N = 500;
 
 # True coefficient values to be used to simulate data
 μ = -0.5;
@@ -26,7 +26,7 @@ savefig("./example/univariable_chain")
 chain = chain[1001:end, :];
 
 # Posterior mean
-β̅ = mean(chain)
+β̅ = mean(chain);
 println("Posterior mean of β: $β̅")
 
 # Plot chains and compare with true values
@@ -40,12 +40,12 @@ savefig("./example/univariable_histogram")
 println("Effective Sample Size: $(ESS(chain))")
 
 # Metropolis-Hastings (MH)
-β = Normal(0, 0.1)
-chainₘ, acceptance = MH(y, x, β₀, β, 11_000);
+β = Normal(0, 0.1);
+chainₘ, acceptance = metropolis(y, x, β₀, β, 11_000);
 println("Acceptance rate: $(mean(acceptance[1001:end]))")
 
 plot(chain[:, 1], label = "Gibbs", title = "Chain of β")
-plot!(chainₘ[:, 1], label = "MH")
+plot!(chainₘ[:, 1], label = "Metropolis")
 hline!([μ], color = :grey, linewidth = 3, label = "True")
 hline!([quantile(Normal(0, 1), mean(y))], color = :black, linewidth = 3, label = "MLE")
-savefig("./example/univariable_gibbs_vs_mh")
+savefig("./example/univariable_gibbs_vs_metropolis")

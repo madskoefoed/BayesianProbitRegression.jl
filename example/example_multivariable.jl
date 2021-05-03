@@ -6,7 +6,7 @@ using StatsBase: sample
 seed!(1234)
 
 # Number of observations
-N = 1_000
+N = 1_000;
 
 # True coefficient values to be used to simulate data
 μ = [0, 1, 2];
@@ -37,6 +37,6 @@ savefig("./example/multivariable_histogram")
 println("Effective Sample Size: $(ESS(chain))")
 
 # Metropolis-Hastings (MH)
-β = MvNormal(zeros(3), 0.01*I)
-chainₘ, acceptance = MH(y, x, β₀, β, 11_000)
+β = MvNormal(zeros(3), 0.01*I);
+chainₘ, acceptance = metropolis(y, x, β₀, β, 11_000);
 println("Acceptance rate: $(mean(acceptance[1001:end]))")
