@@ -4,15 +4,15 @@
 A Metropolis algorithm for probit regression.
 
 # Arguments
-- `y`: boolean vector of outcomes
-- `x`: real valued vector or matrix of inputs
-- `β₀`: a univariate or multivariate normal distribution for the prior
-- `β`: a univariate or multivariate normal distribution for the candidate
-- `M`: the number of draws
+- `y::Vector{Bool}`: boolean vector of outcomes
+- `x::Matrix{<:Real}`: real valued vector or matrix of inputs
+- `β₀::MvNormal`: a univariate or multivariate normal distribution for the prior
+- `β::MvNormal`: a univariate or multivariate normal distribution for the candidate
+- `M::Integer`: the number of draws
 
 # Output
-- `chain`: matrix of draws from the target distribution
-- `accept`: boolean vector of acceptance indicators
+- `chain::Matrix{<:Float}`: matrix of draws from the target distribution
+- `accept::Vector{Bool}`: boolean vector of acceptance indicators
 
 The function can be called without 'x' in which case a constant-only model is estimated.
 """

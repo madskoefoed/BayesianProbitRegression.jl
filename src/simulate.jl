@@ -4,13 +4,13 @@
 Simulation of a dichotomous vector via the probit link.
 
 # Arguments
-- `μ`: real-valued vector of coefficients
-- `x`: real-valued vector or matrix of inputs
+- `μ::Vector{<:Real}`: real-valued vector of coefficients
+- `x::Matrix{<:Real}`: real-valued vector or matrix of inputs
 
 # Output
-- `y`: boolean vector of outcomes
-- `p`: vector of probabilities
-- `z`: vector of latent variables
+- `y::Vector{Bool}`: boolean vector of outcomes
+- `p::Vector{float}`: vector of probabilities
+- `z::Vector{float}`: vector of latent variables
 """
 
 function simulate(μ::T where T<:Real, x::Vector{T} where T<:Real)
@@ -28,6 +28,3 @@ function simulate(μ::Vector{T} where T<:Real, x::Matrix{T} where T<:Real)
     y = [rand(Bernoulli(p[n])) for n = 1:N]
     return (y = y, p = p, z = z)
 end
-
-#simulate(μ::Real, x::Matrix{T}) = simulate([μ], x)
-#simulate(μ::Real, x::Vector{T} where T<:Real) = simulate([μ], repeat(x, 1, 1))

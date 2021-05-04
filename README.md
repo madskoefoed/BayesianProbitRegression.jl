@@ -1,7 +1,7 @@
 # BayesianProbitRegression.jl
 
 # Installation
-A Julia package for Bayesian probit regression in Julia via Gibbs sampling. The package allows for estimation and simulation of a dichotomous variable. The package is unregistered at the moment, so you need to clone it from the repository:
+A Julia package for Bayesian probit regression in Julia via Gibbs (and Metropolis) sampling. The package allows for estimation and simulation of a dichotomous variable. The package is unregistered at the moment, so you need to clone it from the repository:
 
 ```julia
 Pkg.clone("git://github.com/madskoefoed/BayesianProbitRegression.jl)
@@ -9,7 +9,7 @@ Pkg.clone("git://github.com/madskoefoed/BayesianProbitRegression.jl)
 
 The package can then be loaded by typing `using BayesianProbitRegression` in Julia.
 
-Below I provide some examples of how to use the package.ß
+Below I provide some examples of how to use the package.
 
 # Introduction
 Probit regression is arguably the second-most common way of estimating a binary variable (after Logistic regression), that is a variable which can take one of only two values. In Probit regression, the cumulative distribution function of the standard normal distribution is assumed: $Pr(y = 1|X) = \Phi(X\beta)$, where $y$ is an N-dimensional vector of dichotomous values, $X$ is an $N \times J$ matrix of independent variables, and $\beta$ is a J-dimensional vector of parameters.

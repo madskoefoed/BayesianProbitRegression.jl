@@ -4,10 +4,10 @@
 A Gibbs algorithm for probit regression.
 
 # Arguments
-- `y`: boolean vector of outcomes
-- `x`: real valued vector or matrix of inputs
-- `β₀`: a univariate or multivariate normal distribution for the prior
-- `M`: the number of draws
+- `y::Vector{Bool}`: boolean vector of outcomes
+- `x::Matrix`: real valued vector or matrix of inputs
+- `β₀::MvNormal`: a univariate or multivariate normal distribution for the prior
+- `M::Integer`: the number of draws
 
 # Output
 - `chain`: matrix of draws from the target distribution
